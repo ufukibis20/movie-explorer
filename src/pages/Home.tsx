@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
+import MovieModal from "../components/MovieModal";
 import { searchMovies } from "../services/api";
 import type { Movie } from "../types/movie";
 import "./Home.css";
@@ -11,6 +12,7 @@ function Home() {
     const savedFavorites = localStorage.getItem("favoriteMovies");
     return savedFavorites ? JSON.parse(savedFavorites) : [];
   });
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -90,6 +92,7 @@ function Home() {
                 movie={movie}
                 isFavorite={isFavorite(movie.id)}
                 onToggleFavorite={toggleFavorite}
+                onSelectMovie={setSelectedMovie}
               />
             ))}
           </div>
@@ -118,10 +121,18 @@ function Home() {
               movie={movie}
               isFavorite={isFavorite(movie.id)}
               onToggleFavorite={toggleFavorite}
+              onSelectMovie={setSelectedMovie}
             />
           ))}
         </div>
       </section>
+
+      {selectedMovie && (
+        <MovieModal
+          movie={selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+        />
+      )}
     </div>
   );
 }
