@@ -2,11 +2,17 @@ import type { Movie } from "../types/movie";
 
 type MovieCardProps = {
   movie: Movie;
+  isFavorite: boolean;
+  onToggleFavorite: (movie: Movie) => void;
 };
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-function MovieCard({ movie }: MovieCardProps) {
+function MovieCard({
+  movie,
+  isFavorite,
+  onToggleFavorite,
+}: MovieCardProps) {
   return (
     <div className="movie-card">
       {movie.poster_path ? (
@@ -35,6 +41,15 @@ function MovieCard({ movie }: MovieCardProps) {
             ? movie.overview.slice(0, 140) + "..."
             : "Keine Beschreibung vorhanden."}
         </p>
+
+        <button
+          className={`favorite-button ${
+            isFavorite ? "favorite-button-active" : ""
+          }`}
+          onClick={() => onToggleFavorite(movie)}
+        >
+          {isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten"}
+        </button>
       </div>
     </div>
   );
