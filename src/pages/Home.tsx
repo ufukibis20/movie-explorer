@@ -74,21 +74,54 @@ function Home() {
         </button>
       </div>
 
-      <p className="status-text">Favoriten: {favorites.length}</p>
+      <section className="favorites-section">
+        <div className="section-header">
+          <h2 className="section-title">Meine Favoriten</h2>
+          <span className="favorites-count">{favorites.length}</span>
+        </div>
 
-      {loading && <p className="status-text">Filme werden geladen...</p>}
-      {error && <p className="status-text">{error}</p>}
+        {favorites.length === 0 ? (
+          <p className="status-text">Du hast aktuell noch keine Favoriten.</p>
+        ) : (
+          <div className="movies-grid">
+            {favorites.map((movie) => (
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                isFavorite={isFavorite(movie.id)}
+                onToggleFavorite={toggleFavorite}
+              />
+            ))}
+          </div>
+        )}
+      </section>
 
-      <div className="movies-grid">
-        {movies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            movie={movie}
-            isFavorite={isFavorite(movie.id)}
-            onToggleFavorite={toggleFavorite}
-          />
-        ))}
-      </div>
+      <section className="results-section">
+        <div className="section-header">
+          <h2 className="section-title">Suchergebnisse</h2>
+          <span className="favorites-count">{movies.length}</span>
+        </div>
+
+        {loading && <p className="status-text">Filme werden geladen...</p>}
+        {error && <p className="status-text">{error}</p>}
+
+        {!loading && !error && movies.length === 0 && (
+          <p className="status-text">
+            Suche nach einem Film, um Ergebnisse zu sehen.
+          </p>
+        )}
+
+        <div className="movies-grid">
+          {movies.map((movie) => (
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              isFavorite={isFavorite(movie.id)}
+              onToggleFavorite={toggleFavorite}
+            />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
