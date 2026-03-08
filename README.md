@@ -6,6 +6,9 @@ A modern movie search application built with React and TypeScript using the TMDB
 
 [Open the live app](https://movie-explorer-jet-delta.vercel.app)
 
+## Screenshot
+
+![Movie Explorer Screenshot](./movie-explorer.png)
 
 ## Overview
 
