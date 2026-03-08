@@ -8,7 +8,7 @@ A modern movie search application built with React and TypeScript using the TMDB
 
 ## Screenshot
 
-![Movie Explorer Screenshot](./movie dashboard.png)
+![Movie Explorer Screenshot](./movie-dashboard.png)
 
 ## Overview
 
