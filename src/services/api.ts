@@ -13,3 +13,16 @@ export async function searchMovies(query: string) {
   const data = await response.json();
   return data.results;
 }
+
+export const getTrendingMovies = async () => {
+  const response = await fetch(
+    `${BASE_URL}/trending/movie/week?api_key=${API_KEY}`
+  );
+
+  if (!response.ok) {
+    throw new Error("Fehler beim Laden der Trending Movies");
+  }
+
+  const data = await response.json();
+  return data.results;
+};

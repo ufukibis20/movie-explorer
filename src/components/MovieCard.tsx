@@ -42,10 +42,8 @@ function MovieCard({
             <strong>Rating:</strong> {movie.vote_average}
           </p>
 
-          <p className="movie-overview">
-            {movie.overview
-              ? movie.overview.slice(0, 140) + "..."
-              : "Keine Beschreibung vorhanden."}
+          <p className="movie-meta">
+            ⭐ {movie.vote_average.toFixed(1)}
           </p>
         </div>
       </div>

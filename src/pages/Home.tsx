@@ -1,24 +1,43 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import MovieModal from "../components/MovieModal";
-import { searchMovies } from "../services/api";
+import { searchMovies, getTrendingMovies } from "../services/api";
 import type { Movie } from "../types/movie";
 import "./Home.css";
+
 
 function Home() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [heroMovie, setHeroMovie] = useState<Movie | null>(null);
   const [favorites, setFavorites] = useState<Movie[]>(() => {
     const savedFavorites = localStorage.getItem("favoriteMovies");
     return savedFavorites ? JSON.parse(savedFavorites) : [];
   });
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     localStorage.setItem("favoriteMovies", JSON.stringify(favorites));
   }, [favorites]);
+
+  useEffect(() => {
+  const loadTrendingMovies = async () => {
+    try {
+      setLoading(true);
+      const results = await getTrendingMovies();
+      setMovies(results);
+    } catch (err) {
+      console.error(err);
+      setError("Fehler beim Laden der Trending Filme.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadTrendingMovies();
+}, []);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
@@ -27,8 +46,9 @@ function Home() {
       setLoading(true);
       setError("");
 
-      const results = await searchMovies(query);
-      setMovies(results);
+      const results = await getTrendingMovies();
+      setHeroMovie(results[0]);
+      setMovies(results.slice(1));
     } catch (err) {
       setError("Fehler beim Laden der Filme.");
       console.error(err);
