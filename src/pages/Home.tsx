@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import MovieModal from "../components/MovieModal";
-import { searchMovies, getTrendingMovies } from "../services/api";
+import { getTrendingMovies } from "../services/api";
 import type { Movie } from "../types/movie";
 import "./Home.css";
 
@@ -9,7 +9,6 @@ import "./Home.css";
 function Home() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [heroMovie, setHeroMovie] = useState<Movie | null>(null);
   const [favorites, setFavorites] = useState<Movie[]>(() => {
     const savedFavorites = localStorage.getItem("favoriteMovies");
     return savedFavorites ? JSON.parse(savedFavorites) : [];
@@ -47,7 +46,6 @@ function Home() {
       setError("");
 
       const results = await getTrendingMovies();
-      setHeroMovie(results[0]);
       setMovies(results.slice(1));
     } catch (err) {
       setError("Fehler beim Laden der Filme.");
